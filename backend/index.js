@@ -1,29 +1,42 @@
 const express = require("express");
-const http = require("http");
-const errorHandler = require("./app/v1/middleware/errorHandler");
-const connectDb = require("./app/v1/config/dbConnection");
-require('dotenv').config()
-const routes = require('./app/indexRouter')
-const {setupSocket} = require('./app/v1/utils/socket')
-const cors = require('cors')
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const path = require("path");
+const errorHandler = require('./app/v1/middleware/errorHandler.js')
+const routes = require('./app/index.router.js')
+const connectDB  = require("./app/v1/config/dbConnection.js");
+const { app, server }  = require("./app/v1/socket/chat.socket.js");
 
-connectDb();
-const app = express();
 
-const port = process.env.PORT || 5000;
+// import authRoutes from "./routes/auth.route.js";
+// import messageRoutes from "./routes/message.route.js";
 
-// app.use(cors())
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+dotenv.config();
 
+const PORT = process.env.PORT || 5000;
+const _dirname = path.resolve();
+
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
-app.use('/api', routes)
+
+app.use("/api", routes);
 app.use(errorHandler);
 
-const server = http.createServer(app);
-const io = setupSocket(server);
 
+// app.use("/api/auth", authRoutes);
+// app.use("/api/messages", messageRoutes);
 
-// app.listen(port, () => {
-server.listen(port, () => {
-  console.log(`Server running on port : ${port}`);
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(_dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.join(_dirname, "../frontend/dist/index.html"))
+  );
+}
+
+server.listen(PORT, async () => {
+  console.log("Server is running on PORT:", PORT);
+  await connectDB();
 });

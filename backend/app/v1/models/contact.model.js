@@ -7,7 +7,7 @@ const contactSchema = mongoose.Schema(
             required: true,
             ref: 'User'
         },
-        name: {
+        fullName: {
             type: String,
             required : [true, "Contact Name is required"]
         },

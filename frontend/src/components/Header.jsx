@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-// import { toggleMenu } from '../redux/slice/DashboardSlice';
+import { toggleMenu } from '../redux/slice/DashboardSlice';
 import { FaRegUser } from 'react-icons/fa';
 import { getCurrentUserDetailsFromLocalStorage } from '../utils/storageUtility';
 
@@ -10,10 +10,10 @@ const Header = ({
   const { isMenuOpen } = useSelector(state => state.DashboardReducer);
   const dispatch = useDispatch();
   const currentUserDetails = getCurrentUserDetailsFromLocalStorage();
-  //  localStorage.getItem("ITG_CurrentUserDetails") ? JSON.parse(localStorage.getItem("ITG_CurrentUserDetails")) : {};
+  // const currentUserDetails = localStorage.getItem("ITG_CurrentUserDetails") ? JSON.parse(localStorage.getItem("ITG_CurrentUserDetails")) : {};
 
   const handleMenuClick = () => {
-    // dispatch(toggleMenu(!isMenuOpen));
+    dispatch(toggleMenu(!isMenuOpen));
   };
 
   const Menuimage = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_2041)"><path d="M7.67891 8.43818H18.3932C18.4914 8.43818 18.5718 8.35782 18.5718 8.25961V7.00961C18.5718 6.91139 18.4914 6.83104 18.3932 6.83104H7.67891C7.5807 6.83104 7.50034 6.91139 7.50034 7.00961V8.25961C7.50034 8.35782 7.5807 8.43818 7.67891 8.43818ZM7.50034 12.9918C7.50034 13.09 7.5807 13.1703 7.67891 13.1703H18.3932C18.4914 13.1703 18.5718 13.09 18.5718 12.9918V11.7418C18.5718 11.6435 18.4914 11.5632 18.3932 11.5632H7.67891C7.5807 11.5632 7.50034 11.6435 7.50034 11.7418V12.9918ZM18.7503 2.14354H1.25034C1.15212 2.14354 1.07177 2.22389 1.07177 2.32211V3.57211C1.07177 3.67032 1.15212 3.75068 1.25034 3.75068H18.7503C18.8486 3.75068 18.9289 3.67032 18.9289 3.57211V2.32211C18.9289 2.22389 18.8486 2.14354 18.7503 2.14354ZM18.7503 16.2507H1.25034C1.15212 16.2507 1.07177 16.331 1.07177 16.4293V17.6793C1.07177 17.7775 1.15212 17.8578 1.25034 17.8578H18.7503C18.8486 17.8578 18.9289 17.7775 18.9289 17.6793V16.4293C18.9289 16.331 18.8486 16.2507 18.7503 16.2507ZM1.14766 10.1547L4.6365 12.9025C4.76596 13.0051 4.95793 12.9136 4.95793 12.7484V7.25291C4.95793 7.08773 4.7682 6.99621 4.6365 7.09889L1.14766 9.84666C1.1242 9.8649 1.10522 9.88826 1.09216 9.91495C1.0791 9.94164 1.07231 9.97096 1.07231 10.0007C1.07231 10.0304 1.0791 10.0597 1.09216 10.0864C1.10522 10.1131 1.1242 10.1365 1.14766 10.1547V10.1547Z" fill="#4A4A4A" /></g><defs><clipPath id="clip0_1_2041"><rect width="20" height="20" fill="white" /></clipPath></defs></svg>';
@@ -39,13 +39,13 @@ const Header = ({
         {/* Profile Section */}
         <div className="flex items-center gap-2">
           {
-            currentUserDetails?.profileImage ? (
-              <img src={currentUserDetails.profileImage} alt="Profile" className="w-8 h-8 rounded-full" />
+            currentUserDetails?.profilePic ? (
+              <img src={currentUserDetails.profilePic} alt="Profile" className="w-8 h-8 rounded-full" />
             ) : (
               <FaRegUser className="text-gray-600 w-8 h-8 p-1" />
             )
           }
-          <span className="text-sm font-medium text-gray-800">{currentUserDetails?.firstName}</span>
+          <span className="text-sm font-medium text-gray-800">{currentUserDetails?.fullName}</span>
         </div>
       </div>
     </div>

@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 // import { requestForToken, requestPermission } from "../utils/FirebaseConfig";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUserDetailsThunk } from "../../redux/thunk/DashboardThunk";
 import ShimmerTable from "../../components/Shimmer/ShimmerTable";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { currentUserDetails, currentUserDetailsStatus } = useSelector(
-    (state) => state.DashboardReducer
+    (state) => state.AuthReducer
   );
-  useEffect(() => {
-    dispatch(getCurrentUserDetailsThunk()).then(() => {
-      // requestPermission().then((have) => {
-      //   if (have) {
-      //     requestForToken();
-      //   }
-      // });
-    });
-  }, [dispatch]);
-
-  console.log("--currentUserDetails",currentUserDetails);
-  
+  // useEffect(() => {
+  //   dispatch(getCurrentUserDetailsThunk()).then(() => {
+  //     // requestPermission().then((have) => {
+  //     //   if (have) {
+  //     //     requestForToken();
+  //     //   }
+  //     // });
+  //   });
+  // }, [dispatch]);
 
   if (
     currentUserDetailsStatus === "loading" ||

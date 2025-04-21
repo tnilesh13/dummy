@@ -30,7 +30,7 @@ export const getFriendList = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log("--getCurrentUserDetailsThunk called error", error);
+      console.log("--getFriendList called error", error);
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }

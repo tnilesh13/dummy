@@ -1,13 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentUserDetailsThunk } from "../thunk/DashboardThunk";
-import { setCurrentUserDetailsToLocalStorage } from "../../utils/storageUtility";
 
 const DashboardSlice = createSlice({
   name: "dashboard",
   initialState: {
     isUserListOpen: false,
-    currentUserDetails: {},
-    currentUserDetailsStatus: "idle",
     error: null,
     isMenuOpen: true,
     activeMenu: "",
@@ -42,22 +38,6 @@ const DashboardSlice = createSlice({
     resetActiveSubMenu: (state) => {
       state.activeSubmenu = "";
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getCurrentUserDetailsThunk.pending, (state) => {
-        state.currentUserDetailsStatus = "loading";
-        state.error = null;
-      })
-      .addCase(getCurrentUserDetailsThunk.fulfilled, (state, action) => {
-        state.currentUserDetailsStatus = "succeeded";
-        state.currentUserDetails = action.payload.result;
-        setCurrentUserDetailsToLocalStorage(action.payload.result);
-      })
-      .addCase(getCurrentUserDetailsThunk.rejected, (state, action) => {
-        state.currentUserDetailsStatus = "failed";
-        state.error = action.payload;
-      });
   },
 });
 

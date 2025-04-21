@@ -10,29 +10,24 @@ exports.generatePassword = async (password) => {
     }
 }
 
-exports.validPassword = (password, hash, salt) => {
-    if(!password) {
+exports.validatePassword = (password, hash, salt) => {
+    if (!password) {
         return false
     }
     const checkHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex')
     return hash === checkHash
 }
 
-exports.generateToken = (details) => {
-    const secretKey = process.env.ACCESS_TOKEN_SECRET_KEY
+exports.generateToken = ({ id }) => {
+    const secretKey = process.env.JWT_SECRET;
     const payload = {
-        id: details.id,
-        data: new Date(),
-        // user: {
-        //     username: user.name,
-        //     email: user.email,
-        //     id: user.id
-        // }
-    }
-    const options = {
-        expiresIn: '1h',
+        id,
+        issuedAt: new Date().toISOString(),
     };
 
-    const token = jwt.sign(payload, secretKey, options);
-    return token;
+    const options = {
+        expiresIn: "1h",
+    };
+
+    return jwt.sign(payload, secretKey, options);
 };

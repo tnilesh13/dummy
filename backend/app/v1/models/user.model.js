@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    fullName: {
       type: String,
       require: [true, "Name is required"],
     },
@@ -21,7 +21,7 @@ const userSchema = mongoose.Schema(
     salt: {
       type: String,
     },
-    profileImage: {
+    profilePic: {
       type: String,
     },
     friendIds: [

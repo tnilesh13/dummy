@@ -39,8 +39,8 @@ const FriendsList = () => {
                 <div key={index} className='flex items-center justify-between p-4 bg-white shadow-md rounded-lg '
                   onClick={() => handleChatRoute(friend._id)}>
                   <div className='flex items-center space-x-3'>
-                    <img src={friend.profileImage} alt={friend.name} className='w-10 h-10 rounded-full' />
-                    <span className='text-lg font-semibold'>{friend.name}</span>
+                    <img src={friend.profilePic} alt={friend.fullName} className='w-10 h-10 rounded-full' />
+                    <span className='text-lg font-semibold'>{friend.fullName}</span>
                   </div>
                 </div>
               ))

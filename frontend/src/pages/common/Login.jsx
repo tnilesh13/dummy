@@ -19,8 +19,6 @@ const Login = () => {
   const [validationErrors, setValidationErrors] = useState("");
 
   const handleSubmit = (e) => {
-    console.log("--clicked", email, password);
-    
     e.preventDefault();
 
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
@@ -35,8 +33,6 @@ const Login = () => {
 
   useEffect(() => {
     if (isLogin && token) {
-      setTokenToLocalStorage(token);
-      dispatch(setAuthStatus(true));
       navigate("/dashboard");
     }
   }, [isLogin, token, navigate]);

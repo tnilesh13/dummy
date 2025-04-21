@@ -5,11 +5,21 @@ import Header from "../../components/Header";
 // import { setMenuState } from "../redux/slice/DashboardSlice.jsx";
 import { useDispatch } from "react-redux";
 import Dashboard from "./Dashboard.jsx";
+import { getCurrentUserDetailsThunk } from "../../redux/thunk/AuthThunk.jsx";
 
 const Layout = () => {
   const [MenuIconVisiblity, setMenuIconVisiblity] = useState(true);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getCurrentUserDetailsThunk()).then(() => {
+      // requestPermission().then((have) => {
+      //   if (have) {
+      //     requestForToken();
+      //   }
+      // });
+    });
+  }, [dispatch]);
   // useEffect(() => {
   //   const handleResize = () => {
   //     if (window.innerWidth < 1024) {
