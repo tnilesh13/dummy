@@ -2,10 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import { useDispatch, useSelector } from "react-redux";
-import { setchatArray, setfetchNewMessage, setsenderIdtostore, setunreadCount } from '../../redux/slice/ChatSlice';
-
+import FriendsList from "../../components/FriendsList";
+import NoChatSelected from '../../components/Chat/NoChatSelected';
+import ChatContaier from '../../components/Chat/ChatContaier';
 
 const ChatScreen = () => {
+  const { selectedUser } = useSelector((state) => state.ChatReducer);
+
+  return (
+    <div className='flex h-full rounded overflow-hidden w-full'>
+      <FriendsList />
+
+      {selectedUser ? <ChatContaier /> : <NoChatSelected />}
+    </div>
+  );
+}
+
+const ChatScreen2 = () => {
   const { userId, friendId } = useParams();
   const [socket, setSocket] = useState(null);
   // const [messages, setMessages] = useState([]);

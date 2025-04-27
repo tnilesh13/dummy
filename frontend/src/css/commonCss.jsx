@@ -1,0 +1,1 @@
+export const errorCss = "text-red-500 text-[11px] mt-1"

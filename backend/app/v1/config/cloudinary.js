@@ -1,4 +1,3 @@
-// import { v2 as cloudinary } from "cloudinary";
 const cloudinary  = require("cloudinary");
 const dotenv = require("dotenv");
 dotenv.config();

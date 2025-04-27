@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { getFriendList, getUsersThunk } from "../../redux/thunk/UserThunk"
+import { getUsersThunk } from "../thunk/UserThunk";
 
 const userSlice = createSlice({
     name: "users",
@@ -7,10 +7,6 @@ const userSlice = createSlice({
         status: "idle",
         users: [],
         totalPages: 0,
-        friendsStatus: "idle",
-        currentPageFriends: 1,
-        friends: [],
-        totalFriends: 0,
         error: null,
         isAdding: null,
         isDeleting: null,
@@ -40,24 +36,6 @@ const userSlice = createSlice({
             })
             .addCase(getUsersThunk.rejected, (state, action) => {
                 state.status = "failed";
-                state.error = action.payload;
-            })
-            .addCase(getFriendList.pending, (state) => {
-                state.friendsStatus = "loading";
-            })
-            .addCase(getFriendList.fulfilled, (state, action) => {
-                state.friendsStatus = "succeeded";
-                state.friends = action.payload?.result?.friends || []
-                state.totalFriends = action.payload?.result?.totalPages || 0
-                // state.friends = action.payload?.result[0].data || []
-                // if (typeof action.payload.result[0].metadata !== 'undefined' && action.payload.result[0].metadata.length > 0) {
-                //     state.totalFriends = Math.ceil(action.payload.result[0].metadata[0].total / 5);
-                // } else {
-                //     state.totalFriends = 0;
-                // }
-            })
-            .addCase(getFriendList.rejected, (state, action) => {
-                state.friendsStatus = "failed";
                 state.error = action.payload;
             })
     },

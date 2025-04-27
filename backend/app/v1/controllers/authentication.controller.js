@@ -34,7 +34,6 @@ exports.createUser = asyncHandler(async (req, res) => {
   return sendResponse(res, statusCode.CREATED, true, successMessage.SIGNUP, result.result);
 });
 
-// Login
 exports.logIn = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 

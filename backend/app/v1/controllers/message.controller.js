@@ -1,19 +1,21 @@
 const asyncHandler = require("express-async-handler");
 const messageService = require("../services/message.service");
 const { sendResponse } = require("../utils/sendResponse.utils");
-const { statusCode } = require("../constants/constants");
+const { statusCode, successMessage } = require("../constants/constants");
 
 exports.getMessages = asyncHandler(async (req, res) => {
-  const loggedInUserId = req.user._id;
+  const loggedInUserId = req.userId;
   const userToChatId = req.params.id;
-  const { page = 1, limit = 20 } = req.query;
+  const limit = req.query.limit || 20;
+  let page = req.query.page || 1;
+  page = Number(page) || 1;
 
-  const { messages, totalCount } = await messageService.getChatMessages({
+  const result = await messageService.getChatMessages({
     user1: loggedInUserId,
     user2: userToChatId,
     page,
     limit,
   });
 
-  return sendResponse(res, statusCode.OK, true, "Messages fetched", { messages, totalCount });
+  return sendResponse(res, statusCode.OK, true, `Messages ${successMessage.FETCHED}`, result);
 });

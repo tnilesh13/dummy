@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/thunk/AuthThunk";
 import InputField from "../../components/InputText";
-import { setAuthStatus } from "../../redux/slice/AuthSlice";
 import bgImage from "../../assets/login_background.jpg";
-import * as ErrorCss from "../../css/ErrorCss";
-import { setTokenToLocalStorage } from "../../utils/storageUtility";
+import * as CommonCss from "../../css/commonCss";
+import { getTokenFromLocalStorage } from "../../utils/storageUtility";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,6 +16,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState("");
+
+  useEffect(() => {
+    const token = getTokenFromLocalStorage();
+    if (token) {
+      navigate("/chat"); // /dashboard
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    if (isLogin && token) {
+      navigate("/chat"); // /dashboard
+    }
+  }, [isLogin, token, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,12 +42,6 @@ const Login = () => {
       dispatch(loginUser({ email, password }));
     }
   };
-
-  useEffect(() => {
-    if (isLogin && token) {
-      navigate("/dashboard");
-    }
-  }, [isLogin, token, navigate]);
 
   return (
     <div
@@ -67,12 +73,12 @@ const Login = () => {
               />
             </div>
             {!error && validationErrors && (
-              <p className={`mt-2 flex justify-center ${ErrorCss.errorColor}`}>
+              <p className={`mt-2 flex justify-center ${CommonCss.errorCss}`}>
                 {validationErrors}
               </p>
             )}
             {error && (
-              <p className={`mt-2 flex justify-center ${ErrorCss.errorColor}`}>
+              <p className={`mt-2 flex justify-center ${CommonCss.errorCss}`}>
                 {error}
               </p>
             )}

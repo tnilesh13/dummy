@@ -8,28 +8,17 @@ const HomeScreen = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       const token = getTokenFromLocalStorage();
-      token ? navigate("/dashboard") : navigate("/login");
+      token ? navigate("/chat") : navigate("/login"); // /dashboard
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
 
-    return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            backgroundColor: "#1948A6FF",
-            color: "white",
-            fontSize: "2rem",
-          }}
-        >
-          <h1>Welcome</h1>
-        </div>
-      );
-    
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-blue-800 text-white text-4xl font-bold">
+      <h1 className="animate-fade-in">Welcome</h1>
+    </div>
+  );
 };
 
 export default HomeScreen;

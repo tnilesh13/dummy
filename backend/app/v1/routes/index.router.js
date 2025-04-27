@@ -5,9 +5,9 @@ const authenticationController = require('../controllers/authentication.controll
 
 router.post('/login', authenticationController.logIn)
 router.post('/signup', authenticationController.createUser)
-// router.post('/forget', authenticationController.forget)
+// forget password remaining
 
-// ################################################# Authenticated Routes #################################################
+// -------Authenticated Routes------
 router.use('/auth', authenticationRoutes)
 
 module.exports = router

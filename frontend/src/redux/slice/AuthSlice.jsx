@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentUserDetailsThunk, loginUser, signupUser } from "../thunk/AuthThunk";
+import { loginUser, signupUser, getCurrentUserDetailsThunk } from "../thunk/AuthThunk";
 import {
     setTokenToLocalStorage,
     removeTokenFromLocalStorage,
@@ -28,9 +28,6 @@ const authSlice = createSlice({
             state.token = "";
             state.currentUserDetails = null;
             removeTokenFromLocalStorage();
-        },
-        setCurrentUserDetails: (state, action) => {
-            state.currentUserDetails = action.payload;
         },
         setAuthStatus: (state, action) => {
             state.isAuthenticated = action.payload;
@@ -90,5 +87,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout, setAuthStatus, setIsAdmin, setCurrentUserDetails } = authSlice.actions;
+export const { logout, setAuthStatus, setIsAdmin } = authSlice.actions;
 export default authSlice.reducer;

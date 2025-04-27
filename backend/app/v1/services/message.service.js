@@ -8,12 +8,17 @@ exports.getChatMessages = async ({ user1, user2, page, limit }) => {
     ],
   };
 
-  const totalCount = await Message.countDocuments(query);
+  const totalMessages = await Message.countDocuments(query);
 
   const messages = await Message.find(query)
     .sort({ createdAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit); //find all the message with which the user is associated like if he is sender or receiver
 
-  return { messages: messages.reverse(), totalCount };
+  return {
+    messages: messages.reverse(),
+    totalMessages,
+    currentPage: page,
+    totalPages: Math.ceil(totalMessages / limit),
+  };
 };

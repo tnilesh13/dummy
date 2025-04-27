@@ -8,10 +8,6 @@ const routes = require('./app/index.router.js')
 const connectDB  = require("./app/v1/config/dbConnection.js");
 const { app, server }  = require("./app/v1/socket/chat.socket.js");
 
-
-// import authRoutes from "./routes/auth.route.js";
-// import messageRoutes from "./routes/message.route.js";
-
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
@@ -23,10 +19,6 @@ app.use(express.json());
 
 app.use("/api", routes);
 app.use(errorHandler);
-
-
-// app.use("/api/auth", authRoutes);
-// app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(_dirname, "../frontend/dist")));

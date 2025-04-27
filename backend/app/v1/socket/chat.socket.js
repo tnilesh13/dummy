@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5174"],
+    origin: ["http://localhost:5173"],
     credentials: true,
   },
 });
@@ -33,9 +33,17 @@ io.on("connection", (socket) => {
     socket.join(chatRoom);
   });
 
-  socket.on("addNewMessage", async ({ senderId, receiverId, text, image }) => {
+  socket.on("addNewMessage", async (payload) => {
+    const { senderId, receiverId, text, image, tempId } = payload;
+
+    if (!senderId || !receiverId) {
+      console.error("Missing senderId or receiverId");
+      return;
+    }
+
     try {
-      let imageUrl;
+      let imageUrl = null;
+
       if (image) {
         const uploadResponse = await cloudinary.uploader.upload(image);
         imageUrl = uploadResponse.secure_url;
@@ -49,9 +57,14 @@ io.on("connection", (socket) => {
       });
 
       const chatRoom = [senderId, receiverId].sort().join("_");
-      io.to(chatRoom).emit("addNewMessage", newMessage);
+
+      io.to(chatRoom).emit("addNewMessage", {
+        ...newMessage.toObject(), //convert mongoose doc to plain object
+        tempId,
+      });
+
     } catch (error) {
-      console.error("Socket Error: addNewMessage", error.message);
+      console.error("[Socket Error] addNewMessage:", error.message);
     }
   });
 

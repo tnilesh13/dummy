@@ -64,7 +64,7 @@ exports.getFriends = async (userId, { limit = 10, page = 1, filter = "" }) => {
     options: { skip: offset, limit },
   });
 
-  const total = await User.countDocuments({
+  const totalFriends = await User.countDocuments({
     _id: { $in: user.friendIds },
     $or: [
       { fullName: { $regex: filter, $options: "i" } },
@@ -74,9 +74,9 @@ exports.getFriends = async (userId, { limit = 10, page = 1, filter = "" }) => {
 
   return {
     friends: user.friendIds,
-    total,
-    page,
-    totalPages: Math.ceil(total / limit),
+    totalFriends,
+    currentPage: page,
+    totalPages: Math.ceil(totalFriends / limit),
   };
 };
 
