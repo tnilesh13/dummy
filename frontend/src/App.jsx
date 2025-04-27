@@ -8,6 +8,7 @@ import Layout from "./pages/common/Layout";
 import PageNotFound from "./pages/common/PageNotFound";
 import ChatScreen from "./pages/chat/ChatScreen";
 import { Toaster } from "react-hot-toast";
+import SignUpPage from "./pages/signup/SignUpPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUpPage />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>

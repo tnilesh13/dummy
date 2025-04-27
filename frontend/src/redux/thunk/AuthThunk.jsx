@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../utils/axios";
 import { getTokenFromLocalStorage, setCurrentUserDetailsToLocalStorage } from "../../utils/storageUtility";
+import toast from "react-hot-toast";
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
@@ -16,9 +17,10 @@ export const loginUser = createAsyncThunk(
             if (!response?.data?.status) {
                 return rejectWithValue(response.data.message);
             }
-
+            toast.success("Logged in successfully", { id: '1' });
             return response.data;
         } catch (error) {
+            toast.error(error.response?.data?.message || error.message, { id: '1' })
             return rejectWithValue(error.response?.data?.message || error.message);
         }
     }
@@ -38,9 +40,10 @@ export const signupUser = createAsyncThunk(
             if (!response?.data?.status) {
                 return rejectWithValue(response.data.message);
             }
-
+            toast.success("Account created successfully", { id: '1' });
             return response.data;
         } catch (error) {
+            toast.error(error.response?.data?.message || error.message, { id: '1' })
             return rejectWithValue(error.response?.data?.message || error.message);
         }
     }
@@ -63,7 +66,7 @@ export const getCurrentUserDetailsThunk = createAsyncThunk("/getUserDetails", as
         return response.data;
     } catch (error) {
         console.log("--getCurrentUserDetailsThunk called error", error);
-
+        toast.error(error.response?.data?.message || error.message, { id: '1' })
         return rejectWithValue(error.response?.data?.message || error.message);
     }
 });

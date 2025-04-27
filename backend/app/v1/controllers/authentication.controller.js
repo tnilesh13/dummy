@@ -12,7 +12,7 @@ const User = require("../models/user.model.js");
 // Signup
 exports.createUser = asyncHandler(async (req, res) => {
   const { fullName, email, phone, password } = req.body;
-  if (!fullName || !email || !phone || !password) {
+  if (!fullName || !email || !password) {
     res.status(statusCode.BAD_REQUEST);
     throw new Error("All fields are mandatory");
   }

@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/thunk/AuthThunk";
+import { signupUser } from "../../redux/thunk/AuthThunk";
 import { getTokenFromLocalStorage } from "../../utils/storageUtility";
 import bgImage from "../../assets/login_background.jpg";
-import { MessageSquare } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import toast from "react-hot-toast";
 
-const Login = () => {
+const SignUpPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLogin, isLoading, error, token } = useSelector(
+  const { isSignup, isLoading, error, token } = useSelector(
     (state) => state.AuthReducer,
   );
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -25,22 +27,26 @@ const Login = () => {
   }, [navigate]);
 
   useEffect(() => {
-    if (isLogin && token) {
+    if (isSignup && token) {
       navigate("/chat"); // /dashboard
     }
-  }, [isLogin, token, navigate]);
+  }, [isSignup, token, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!email.trim()) {
+    if (!fullName) {
+      toast.error("Full name is required", { id: '1' });
+    } else if (!email.trim()) {
       toast.error("Email is required", { id: '1' });
     } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       toast.error("Invalid email format", { id: '1' });
-    } else if (!password) {
-      toast.error("Password is required", { id: '1' });
+    } else if (!password || !confirmPassword) {
+      toast.error("Password and confirmation are required", { id: '1' });
+    } else if (password !== confirmPassword) {
+      toast.error("Passwords do not match", { id: '1' });
     } else {
-      dispatch(loginUser({ email, password }));
+      dispatch(signupUser({ fullName, email, password }));
     }
   };
 
@@ -51,22 +57,36 @@ const Login = () => {
         alt="background"
         className="absolute inset-0 w-full h-full object-cover opacity-20 blur-sm"
       />
-      <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/10 p-10 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
+      <div className="w-full max-w-md bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]">
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-3">
             <div className="bg-[#03003d] p-3 rounded-full shadow-md">
               <span className="text-white text-2xl font-bold">
-                <MessageSquare />
+                <UserPlus />
               </span>
             </div>
           </div>
           <h2 className="text-3xl font-extrabold text-[#f6f5ff] mb-2">
-            Welcome Back
+            Create an Account
           </h2>
-          <p className="text-gray-400">Sign in to your account</p>
+          <p className="text-gray-400">Sign up to get started</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="fullName" className="block text-sm text-gray-300 mb-1">
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="John Doe"
+              className="w-full px-4 py-2 rounded-md bg-[#1f1f26] border border-[#3a3a42] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#03003d] focus:border-[#03003d] transition"
+            />
+          </div>
+
           <div>
             <label htmlFor="email" className="block text-sm text-gray-300 mb-1">
               Email
@@ -105,34 +125,52 @@ const Login = () => {
             </button>
           </div>
 
+          <div className="relative">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm text-gray-300 mb-1"
+            >
+              Confirm Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="********"
+              className="w-full px-4 py-2 rounded-md bg-[#1f1f26] border border-[#3a3a42] text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#03003d] focus:border-[#03003d] transition"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 text-gray-400 hover:text-[#03003d] text-sm"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+
           <button
             type="submit"
             className="w-full py-3 rounded-md bg-[#03003d] hover:bg-[#050055] transition font-semibold text-white hover:scale-105 shadow-md"
           >
-            {isLoading ? "Loading..." : "Sign in"}
+            {isLoading ? "Loading..." : "Sign up"}
           </button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-gray-400">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <button
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/login")}
               className="text-[#eae9ff] hover:underline font-semibold"
             >
-              Create account
+              Sign in
             </button>
           </p>
-          {/* <button
-            onClick={() => navigate("/forgot-password")}
-            className="mt-4 text-sm text-[#eae9ff] hover:underline font-semibold"
-          >
-            Forgot Password?
-          </button> */}
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUpPage;
