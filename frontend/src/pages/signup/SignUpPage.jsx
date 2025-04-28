@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signupUser } from "../../redux/thunk/AuthThunk";
+import { signupRequestThunk } from "../../redux/thunk/AuthThunk";
 import { getTokenFromLocalStorage } from "../../utils/storageUtility";
 import bgImage from "../../assets/login_background.jpg";
 import { UserPlus } from "lucide-react";
@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 const SignUpPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isSignup, isLoading, error, token } = useSelector(
+  const { isLoading, error, token } = useSelector(
     (state) => state.AuthReducer,
   );
   const [fullName, setFullName] = useState("");
@@ -26,11 +26,12 @@ const SignUpPage = () => {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    if (isSignup && token) {
-      navigate("/chat"); // /dashboard
-    }
-  }, [isSignup, token, navigate]);
+  // useEffect(() => {
+  //   if (isLoading) { // && token) {
+  //     // navigate("/chat"); // /dashboard
+  //     navigate("/login"); // /dashboard
+  //   }
+  // }, [isLoading, token, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ const SignUpPage = () => {
     } else if (password !== confirmPassword) {
       toast.error("Passwords do not match", { id: '1' });
     } else {
-      dispatch(signupUser({ fullName, email, password }));
+      dispatch(signupRequestThunk({ fullName, email, password }));
     }
   };
 

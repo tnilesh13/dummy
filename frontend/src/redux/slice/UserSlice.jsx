@@ -6,17 +6,13 @@ const userSlice = createSlice({
     initialState: {
         status: "idle",
         users: [],
+        isUsersLoading: false,
+        currentPage: 1,
         totalPages: 0,
         error: null,
-        isAdding: null,
-        isDeleting: null,
-        isUpdating: null,
     },
     reducers: {
         resetStatus: (state) => {
-            state.isDeleting = null;
-            state.isUpdating = null;
-            state.isAdding = null;
             state.error = null;
         },
     },
@@ -24,18 +20,20 @@ const userSlice = createSlice({
         builder
             .addCase(getUsersThunk.pending, (state) => {
                 state.status = "loading";
+                state.isUsersLoading = true;
             })
             .addCase(getUsersThunk.fulfilled, (state, action) => {
+                const { users, totalUsers, currentPage, totalPages } = action.payload?.result || {};
+
                 state.status = "succeeded";
-                state.users = action.payload?.result[0].data || []
-                if (typeof action.payload.result[0].metadata !== 'undefined' && action.payload.result[0].metadata.length > 0) {
-                    state.totalPages = Math.ceil(action.payload.result[0].metadata[0].total / 5);
-                } else {
-                    state.totalPages = 0;
-                }
+                state.isUsersLoading = false;
+                state.users = users;
+                state.currentPage = currentPage || 1;
+                state.totalPages = totalPages || 0;
             })
             .addCase(getUsersThunk.rejected, (state, action) => {
                 state.status = "failed";
+                state.isUsersLoading = false;
                 state.error = action.payload;
             })
     },

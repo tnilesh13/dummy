@@ -26,11 +26,11 @@ export const loginUser = createAsyncThunk(
     }
 );
 
-export const signupUser = createAsyncThunk(
-    "auth/signupUser",
+export const signupRequestThunk = createAsyncThunk(
+    "auth/signupRequest",
     async (details, { rejectWithValue }) => {
         try {
-            const response = await axiosInstance.post(`signup`, details, {
+            const response = await axiosInstance.post(`signup-request`, details, {
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
@@ -40,7 +40,7 @@ export const signupUser = createAsyncThunk(
             if (!response?.data?.status) {
                 return rejectWithValue(response.data.message);
             }
-            toast.success("Account created successfully", { id: '1' });
+            toast.success(response?.data?.message || "Signup request sent successfully", { id: '1' });
             return response.data;
         } catch (error) {
             toast.error(error.response?.data?.message || error.message, { id: '1' })

@@ -7,11 +7,19 @@ export const getUsersThunk = createAsyncThunk(
   async ({ page, search, limit = 10, filter = "" }, { rejectWithValue }) => {
     try {
       const token = getTokenFromLocalStorage();
-      const response = await axiosInstance.post("users", {
+      const response = await axiosInstance.post("auth/user/users", {
         page,
         query: search,
         limit: limit || 10,
         filter
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          "ngrok-skip-browser-warning": true
+        }
       });
       return response.data;
     } catch (error) {

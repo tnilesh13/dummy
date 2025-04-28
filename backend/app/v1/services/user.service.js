@@ -41,8 +41,8 @@ exports.allUsers = async (query, { limit = 500, page = 1 }) => {
   const [result] = await User.aggregate(pipeline);
   return {
     users: result.data,
-    total: result.metadata[0]?.total || 0,
-    page,
+    totalUsers: result.metadata[0]?.total || 0,
+    currentPage: page,
     totalPages: Math.ceil((result.metadata[0]?.total || 0) / limit),
   };
 };

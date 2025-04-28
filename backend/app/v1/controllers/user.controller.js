@@ -59,7 +59,7 @@ exports.allUsers = asyncHandler(async (req, res) => {
 // Update profile picture
 exports.updateProfile = asyncHandler(async (req, res) => {
   const { profilePic } = req.body;
-  const userId = req.user._id;
+  const userId = req.userId;
 
   if (!profilePic) {
     return sendResponse(res, statusCode.BAD_REQUEST, false, "Profile pic is required");
@@ -75,7 +75,7 @@ exports.checkAuth = asyncHandler(async (req, res) => {
 });
 
 exports.getUsersForSidebar = asyncHandler(async (req, res) => {
-  const loggedInUserId = req.user._id;
+  const loggedInUserId = req.userId;
   const users = await userService.getAllExcept(loggedInUserId);
   return sendResponse(res, statusCode.OK, true, `Users ${successMessage.FETCHED}`, users);
 });

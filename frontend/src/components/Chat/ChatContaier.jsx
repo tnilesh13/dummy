@@ -103,7 +103,7 @@ const ChatContainer = () => {
               className={`flex items-start space-x-2 p-1 ${isUser ? 'self-end flex-row-reverse space-x-reverse' : 'self-start'}`}
               ref={index === messages.length - 1 ? messageEndRef : null}
             >
-              <div className="w-8 h-8 rounded-full bg-gray-300">
+              <div className="">
                 <img
                   src={
                     isUser
@@ -111,6 +111,7 @@ const ChatContainer = () => {
                       : selectedUser.profilePic || "/avatar.png"
                   }
                   alt="profile pic"
+                  className='size-8 object-cover rounded-full'
                 />
               </div>
               <div className="flex flex-col space-y-1.5">

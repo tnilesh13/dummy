@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, signupUser, getCurrentUserDetailsThunk } from "../thunk/AuthThunk";
+import { loginUser, signupRequestThunk, getCurrentUserDetailsThunk } from "../thunk/AuthThunk";
 import {
     setTokenToLocalStorage,
     removeTokenFromLocalStorage,
@@ -55,20 +55,19 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
-            // todo Signup (not used yet)
-            .addCase(signupUser.pending, (state) => {
+            .addCase(signupRequestThunk.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(signupUser.fulfilled, (state, action) => {
-                const token = action?.payload?.result?.token;
-                state.isLogin = true;
+            .addCase(signupRequestThunk.fulfilled, (state) => {
+                // const token = action?.payload?.result?.token;
+                // state.isLogin = true;
                 state.isLoading = false;
-                state.token = token;
-                state.isAuthenticated = true;
-                setTokenToLocalStorage(token);
+                // state.token = token;
+                // state.isAuthenticated = true;
+                // setTokenToLocalStorage(token);
             })
-            .addCase(signupUser.rejected, (state, action) => {
+            .addCase(signupRequestThunk.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             })

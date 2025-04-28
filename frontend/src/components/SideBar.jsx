@@ -23,21 +23,21 @@ const Sidebar = () => {
 
   const handleMenuItemClick = (route) => {
     dispatch(setActiveMenu(route));
+    navigate(route);
   };
 
   return (
     <aside className="h-full w-20 border-r border-black flex flex-col justify-between transition-all duration-200">
       <div className="flex flex-col justify-center items-center">
-        <Link to="chat" >
-          <div className={`border-b border-black w-full p-5 ${activeMenu === "chat" ? "bg-black text-white" : ""}`}
-            onClick={() => handleMenuItemClick("chat")}>
-            <MessageSquare className="size-6" />
-          </div>
-        </Link>
+        <div className={`border-b border-black w-full p-5 ${activeMenu === "chat" ? "bg-black text-white" : ""}`}
+          onClick={() => handleMenuItemClick("chat")}>
+          <MessageSquare className="size-6" />
+        </div>
         <div className="border-b border-black w-full p-5">
           <ImagesIcon className="size-6" />
-        </div><div className="border-b border-black w-full p-5"
-          onClick={() => handleMenuItemClick("friends-list")}>
+        </div>
+        <div className={`border-b border-black w-full p-5 ${activeMenu === "users-list" ? "bg-black text-white" : ""}`}
+          onClick={() => handleMenuItemClick("users-list")}>
           <FaUserFriends className="size-6" />
         </div>
       </div>
