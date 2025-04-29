@@ -7,10 +7,10 @@ const { statusCode, successMessage, errorMessage } = require("../constants/const
 
 // Get current user details
 exports.userDetails = asyncHandler(async (req, res) => {
-  const token = req.headers["authorization"];
-  const decoded = jwtDecode(token);
-
-  const userDetail = await User.findById(decoded.id).select("-password -salt");
+  const userDetail = await User.findById(req.userId).populate({
+    path: "friendRequests",
+    select: "fullName profilePic"
+  }).select("-password -salt");
 
   return sendResponse(res, statusCode.OK, true, `User Details ${successMessage.FETCHED}`, userDetail);
 });
@@ -23,8 +23,10 @@ exports.getFriends = asyncHandler(async (req, res) => {
 
 // Search all users (with filter + pagination)
 exports.allUsers = asyncHandler(async (req, res) => {
-  const result = await service.allUsers(req.body.query, req.body);
-  return sendResponse(res, statusCode.OK, true, `All Users ${successMessage.FETCHED}`, result);
+  const { page, query = "", limit = 10, filter } = req.body;
+  const result = await service.allUsers(query, { page, limit }, req.userId);
+
+  return sendResponse(res, 200, true, `Users ${successMessage.FETCHED}`, result);
 });
 
 // Update profile picture

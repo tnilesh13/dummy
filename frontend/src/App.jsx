@@ -10,6 +10,7 @@ import ChatScreen from "./pages/chat/ChatScreen";
 import { Toaster } from "react-hot-toast";
 import SignUpPage from "./pages/signup/SignUpPage";
 import UserList from "./pages/user-list/UserList";
+import FriendRequests from "./pages/friend-request/FriendRequests";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
             {/* <Route path="/dashboard/chat" element={<ChatScreen />} /> */}
             <Route path="/chat" element={<ChatScreen />} />
             <Route path="/users-list" element={<UserList />} />
+            <Route path="/friend-request" element={<FriendRequests />} />
           </Route>
         </Route>
 

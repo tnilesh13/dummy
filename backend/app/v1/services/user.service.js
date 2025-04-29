@@ -1,15 +1,19 @@
 const User = require("../models/user.model");
 const cloudinary = require("../config/cloudinary");
+const mongoose = require("mongoose");
 
 // Get all users (with filter + pagination)
-exports.allUsers = async (query, { limit = 500, page = 1 }) => {
+exports.allUsers = async (query, { limit = 500, page = 1 }, currentUserId) => {
   const offset = (page - 1) * limit;
+
+  const userObjectId = new mongoose.Types.ObjectId(currentUserId);
 
   const matchConditions = {
     $or: [
       { fullName: { $regex: query, $options: "i" } },
       { email: { $regex: query, $options: "i" } },
     ],
+    _id: { $ne: userObjectId }, // exclude self
   };
 
   //   {

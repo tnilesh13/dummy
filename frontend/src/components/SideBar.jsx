@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/slice/AuthSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { ImagesIcon, LogOut, MessageSquare, SettingsIcon } from "lucide-react";
+import { ImagesIcon, LogOut, MessageSquare, SettingsIcon, UserPlus } from "lucide-react";
 import { FaUserFriends } from "react-icons/fa";
 import { setActiveMenu } from "../redux/slice/DashboardSlice";
 
@@ -38,6 +38,10 @@ const Sidebar = () => {
         </div>
         <div className={`border-b border-black w-full p-5 ${activeMenu === "users-list" ? "bg-black text-white" : ""}`}
           onClick={() => handleMenuItemClick("users-list")}>
+          <UserPlus className="size-6" />
+        </div>
+        <div className={`border-b border-black w-full p-5 ${activeMenu === "friend-request" ? "bg-black text-white" : ""}`}
+          onClick={() => handleMenuItemClick("friend-request")}>
           <FaUserFriends className="size-6" />
         </div>
       </div>
