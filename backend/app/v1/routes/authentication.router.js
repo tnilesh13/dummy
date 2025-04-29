@@ -2,6 +2,7 @@ const express = require("express");
 const userRoutes = require("./user.router");
 const contactRoutes = require("./contact.router");
 const messageRoutes = require("./message.router");
+const friendRoutes = require("./friend.router.js");
 const authMiddleware = require("../middleware/auth.middleware.js")
 
 const router = express.Router();
@@ -9,6 +10,7 @@ const router = express.Router();
 // router.use(passport.authenticate('jwt', {session: false}))
 router.use(authMiddleware);
 router.use("/user", userRoutes);
+router.use("/friend", friendRoutes);
 router.use("/contacts", contactRoutes);
 router.use("/messages", messageRoutes)
 

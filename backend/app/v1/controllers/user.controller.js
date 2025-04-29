@@ -5,35 +5,6 @@ const service = require("../services/user.service");
 const { sendResponse } = require("../utils/sendResponse.utils");
 const { statusCode, successMessage, errorMessage } = require("../constants/constants");
 
-// exports.sendFriendRequest = async (senderId, receiverId) => {
-//     const receiver = await User.findById(receiverId);
-//     if (!receiver) return { status: false, message: "User not found" };
-
-//     if (receiver.friendRequests.includes(senderId))
-//         return { status: false, message: "Request already sent" };
-
-//     receiver.friendRequests.push(senderId);
-//     await receiver.save();
-
-//     return { status: true, message: "Friend request sent" };
-// };
-
-// exports.acceptFriendRequest = async (userId, senderId) => {
-//     const user = await User.findById(userId);
-//     if (!user) return { status: false, message: "User not found" };
-
-//     user.friendRequests = user.friendRequests.filter(id => id.toString() !== senderId);
-//     user.friendIds.push(senderId);
-
-//     const sender = await User.findById(senderId);
-//     sender.friendIds.push(userId);
-
-//     await user.save();
-//     await sender.save();
-
-//     return { status: true, message: "Friend request accepted" };
-// };
-
 // Get current user details
 exports.userDetails = asyncHandler(async (req, res) => {
   const token = req.headers["authorization"];
