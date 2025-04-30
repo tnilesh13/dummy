@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUserDetailsThunk } from "../../redux/thunk/AuthThunk.jsx";
+import { getCurrentUserDetailsThunk } from "../../redux/thunk/AuthThunk";
 import { connectSocket, disconnectSocket, getSocket } from "../../utils/socket.js";
 import { listenToSocketEvents, clearSocketEvents } from "../../utils/socketListeners.js";
 import { clearSocketState } from "../../redux/slice/SocketSlice.js";
 import Store from "../../redux/store";
-import Sidebar from "../../components/SideBar.jsx";
+import Sidebar from "../../components/SideBar";
 
 const Layout = () => {
   const dispatch = useDispatch();
