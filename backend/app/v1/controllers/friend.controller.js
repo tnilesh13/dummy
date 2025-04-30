@@ -59,3 +59,24 @@ exports.acceptFriendRequest = asyncHandler(async (req, res) => {
 
   return sendResponse(res, statusCode.OK, true, "Friend request accepted successfully");
 });
+
+exports.rejectFriendRequest = asyncHandler(async (req, res) => {
+  const { senderId } = req.body;
+  const userId = req.userId;
+
+  if (!userId || !senderId) {
+    return sendResponse(res, statusCode.BAD_REQUEST, false, "User and Sender IDs are required");
+  }
+
+  const result = await service.rejectFriendRequest(userId, senderId);
+
+  if (result.isUserNotFound) {
+    return sendResponse(res, statusCode.NOT_FOUND, false, "User not found");
+  }
+
+  if (result.isRequestNotFound) {
+    return sendResponse(res, statusCode.BAD_REQUEST, false, "Friend request not found");
+  }
+
+  return sendResponse(res, statusCode.OK, true, "Friend request rejected successfully");
+});

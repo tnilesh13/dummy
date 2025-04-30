@@ -103,3 +103,7 @@ exports.getAllExcept = async (excludedUserId) => {
 exports.getUserById = async (id) => {
   return await User.findById(id);
 };
+
+exports.deleteUser = async (userId) => {
+  return await User.findByIdAndDelete(userId);
+};

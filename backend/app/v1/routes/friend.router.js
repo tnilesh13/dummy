@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.route("/friend-request/sent").post(friendController.sendFriendRequest)
 router.route("/friend-request/accept").post(friendController.acceptFriendRequest)
+router.route("/friend-request/reject").post(friendController.rejectFriendRequest)
 
 module.exports = router;

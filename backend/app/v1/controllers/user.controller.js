@@ -49,6 +49,17 @@ exports.checkAuth = asyncHandler(async (req, res) => {
 
 exports.getUsersForSidebar = asyncHandler(async (req, res) => {
   const loggedInUserId = req.userId;
-  const users = await userService.getAllExcept(loggedInUserId);
+  const users = await service.getAllExcept(loggedInUserId);
   return sendResponse(res, statusCode.OK, true, `Users ${successMessage.FETCHED}`, users);
+});
+
+exports.deleteUserById = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const result = await service.deleteUser(userId);
+
+  if (!result) {
+      return sendResponse(res, statusCode.NOT_FOUND, false, "User not found");
+  }
+
+  return sendResponse(res, statusCode.OK, true, "User deleted successfully");
 });

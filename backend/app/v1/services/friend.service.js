@@ -33,12 +33,26 @@ exports.acceptFriendRequest = async (userId, senderId) => {
   if (!sender) return { status: false, isSenderNotFound: true };
 
   user.friendRequests = user.friendRequests.filter(id => id.toString() !== senderId);
+  
   user.friendIds.push(senderId);
-
   sender.friendIds.push(userId);
 
   await user.save();
   await sender.save();
+
+  return { status: true };
+};
+
+exports.rejectFriendRequest = async (userId, senderId) => {
+  const user = await User.findById(userId);
+  if (!user) return { status: false, isUserNotFound: true };
+
+  if (!user.friendRequests.includes(senderId)) {
+    return { status: false, isRequestNotFound: true };
+  }
+
+  user.friendRequests = user.friendRequests.filter(id => id.toString() !== senderId);
+  await user.save();
 
   return { status: true };
 };

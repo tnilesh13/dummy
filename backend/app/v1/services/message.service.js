@@ -22,3 +22,16 @@ exports.getChatMessages = async ({ user1, user2, page, limit }) => {
     totalPages: Math.ceil(totalMessages / limit),
   };
 };
+
+exports.deleteChatBetweenUsers = async (id1, id2) => {
+  return await Message.deleteMany({
+      $or: [
+          { senderId: id1, receiverId: id2 },
+          { senderId: id2, receiverId: id1 }
+      ]
+  });
+};
+
+exports.deleteAllChats = async () => {
+  return await Message.deleteMany({});
+};

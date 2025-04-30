@@ -63,16 +63,35 @@ exports.logIn = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    return sendResponse(res, statusCode.NOT_FOUND, false, errorMessage.INVALID_CREDENTIALS);
+    return sendResponse(
+      res,
+      statusCode.NOT_FOUND,
+      false,
+      errorMessage.INVALID_CREDENTIALS
+    );
   }
 
   const isValid = validatePassword(password, user.password, user.salt);
   if (!isValid) {
-    return sendResponse(res, statusCode.UNAUTHORIZED, false, errorMessage.INVALID_CREDENTIALS);
+    return sendResponse(
+      res,
+      statusCode.UNAUTHORIZED,
+      false,
+      errorMessage.INVALID_CREDENTIALS
+    );
   }
 
   const token = await generateToken(user);
-  return sendResponse(res, statusCode.OK, true, successMessage.LOGIN, { token });
+
+  const { password: _p, salt, ...safeUser } = user.toObject();
+
+  return sendResponse(
+    res,
+    statusCode.OK,
+    true,
+    successMessage.LOGIN,
+    { token, user: safeUser }
+  );
 });
 
 // exports.logout = asyncHandler(async (req, res) => {
