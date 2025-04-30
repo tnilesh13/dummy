@@ -20,8 +20,9 @@ const FriendRequests = () => {
   };
 
   const handleRejectFriendRequest = (requestId) => {
-    toast.success("Coming soon")
-    // dispatch(rejectFriendRequestThunk({ senderId: requestId }));
+    dispatch(rejectFriendRequestThunk({ senderId: requestId })).then(() => {
+      dispatch(getCurrentUserDetailsThunk());
+    });
   };
 
   if (!requests.length) {

@@ -15,7 +15,7 @@ const HomeScreen = () => {
   }, [navigate]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-800 text-white text-4xl font-bold">
+    <div className="flex items-center justify-center min-h-screen bg-blue-900 text-white text-4xl font-bold">
       <h1 className="animate-fade-in">Welcome</h1>
     </div>
   );
