@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slice/AuthSlice"
 import dashboardReducer from "./slice/DashboardSlice"
-import userReducer from "../redux/slice/UserSlice";
-import chatReducer from "../redux/slice/ChatSlice";
-import socketReducer from "../redux/slice/SocketSlice"
+import userReducer from "./slice/UserSlice";
+import chatReducer from "./slice/ChatSlice";
+import socketReducer from "./slice/SocketSlice"
 
 const Store = configureStore({
     reducer: {
